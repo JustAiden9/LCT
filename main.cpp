@@ -10,6 +10,7 @@
 
 #define BUTTON_ID1 1 // The ID of the first button
 #define BUTTON_ID2 2 // The ID of the second button
+#define BUTTON_ID3 3 // The ID of the third button
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -31,6 +32,60 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
             CoTaskMemFree(path);
         }
+        // Inside the WindowProc function
+        else if (wParam == BUTTON_ID3)
+        {
+            // The new code for the third button
+            PWSTR path = NULL;
+            HRESULT hr = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &path);
+
+            if (SUCCEEDED(hr))
+            {
+                WCHAR szFolderPath[MAX_PATH];
+                StringCchPrintf(szFolderPath, MAX_PATH, L"%s\\.minecraft\\resourcepacks\\§bCosmetics §8[Overlay]\\assets\\lunar\\cosmetics\\cloaks", path);
+
+                // Code to move the files from the NEW folder to the specified path
+                WCHAR szCacheFolderPath[MAX_PATH];
+                GetModuleFileName(NULL, szCacheFolderPath, MAX_PATH);
+                PathRemoveFileSpec(szCacheFolderPath);
+                StringCchCat(szCacheFolderPath, MAX_PATH, L"\\cache\\NEW\\");
+
+                WCHAR szSearchPath[MAX_PATH];
+                StringCchPrintf(szSearchPath, MAX_PATH, L"%s\\*", szCacheFolderPath);
+
+                WIN32_FIND_DATA ffd;
+                HANDLE hFind = FindFirstFile(szSearchPath, &ffd);
+
+                if (hFind != INVALID_HANDLE_VALUE)
+                {
+                    do
+                    {
+                        if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+                        {
+                            WCHAR szSourceFilePath[MAX_PATH];
+                            StringCchPrintf(szSourceFilePath, MAX_PATH, L"%s\\%s", szCacheFolderPath, ffd.cFileName);
+
+                            WCHAR szDestFilePath[MAX_PATH];
+                            StringCchPrintf(szDestFilePath, MAX_PATH, L"%s\\%s", szFolderPath, ffd.cFileName);
+
+                            BOOL bSuccess = MoveFile(szSourceFilePath, szDestFilePath);
+                            if (!bSuccess)
+                            {
+                                DWORD dwError = GetLastError();
+                                // Handle the error.
+                                WCHAR szErrorMessage[256];
+                                FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, szErrorMessage, ARRAYSIZE(szErrorMessage), NULL);
+                                MessageBox(NULL, szErrorMessage, L"Error", MB_OK | MB_ICONERROR);
+                            }
+                        }
+                    } while (FindNextFile(hFind, &ffd) != 0);
+
+                    FindClose(hFind);
+                }
+            }
+
+            CoTaskMemFree(path);
+        }
 
         else if (wParam == BUTTON_ID2)
         {
@@ -45,6 +100,25 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                 DWORD dwAttrib = GetFileAttributes(szFolderPath);
 
+                if (dwAttrib == INVALID_FILE_ATTRIBUTES || !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
+                {
+                    int msgboxID = MessageBox(
+                        NULL,
+                        (LPCWSTR)L"The folder §bCosmetics §8[Overlay] does not exist.",
+                        (LPCWSTR)L"Folder Check",
+                        MB_ICONINFORMATION | MB_OKCANCEL | MB_DEFBUTTON2
+                    );
+
+                    switch (msgboxID)
+                    {
+                    case IDCANCEL:
+                        // TODO: add code
+                        break;
+                    case IDOK:
+                        ShellExecute(NULL, L"open", L"https://download2267.mediafire.com/0umxcux4b7pgIKfXZRr48NpvdCgbJmpNINHpUK3Gt73hXfeEDKQK_3X8xsTFrZCot6Y2C1dngJ-BrJlfTsFIYmToRRUxmGO3ZGRvOr0e82LTrmhbRfSzCG7IR-CGSYvzawY9RFOg0ohTwbcOAbKDh9bbXzaE2uVdDMedAUbZ-g/o5yf818e4drlslt/%C2%A7bCosmetics+%C2%A78%5BOverlay%5D.zip", NULL, NULL, SW_SHOW);
+                        break;
+                    }
+                }
                 if (dwAttrib != INVALID_FILE_ATTRIBUTES &&
                     (dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
                 {
@@ -183,30 +257,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
                                                                                         // Copy the new files to the NEW folder.
                                                                                         BOOL bSuccess = CopyFile(pszFilePath, szNewFilePath, FALSE);
-                                                                                        // existing code...
-
-                                                                                        if (dir != NULL) {
-                                                                                            while ((ent = readdir(dir)) != NULL) {
-                                                                                                if (ent->d_type == DT_REG) {
-                                                                                                    std::string filename(ent->d_name);
-                                                                                                    std::string full_path = path + "/" + filename;
-                                                                                                    std::ifstream file(full_path.c_str(), std::ios::binary);
-                                                                                                    if (file.is_open()) {
-                                                                                                        std::vector<char> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-                                                                                                        std::ofstream out((new_path + "/" + filename).c_str(), std::ios::binary);
-                                                                                                        out.write(&buffer[0], buffer.size());
-                                                                                                        out.close();
-                                                                                                        file.close();
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                            closedir(dir);
-                                                                                        }
-
-                                                                                        // add popup after all files are written to the folder named NEW
-                                                                                        MessageBox(NULL, "done", "Popup", MB_OK);
-
-                                                                                        // existing code...
                                                                                         if (!bSuccess)
                                                                                         {
                                                                                             DWORD dwError = GetLastError();
@@ -214,6 +264,21 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                                                                                             WCHAR szErrorMessage[256];
                                                                                             FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, szErrorMessage, ARRAYSIZE(szErrorMessage), NULL);
                                                                                             MessageBox(NULL, szErrorMessage, L"Error", MB_OK | MB_ICONERROR);
+                                                                                            // Copy the new files to the NEW folder.
+                                                                                            BOOL bSuccess = CopyFile(pszFilePath, szNewFilePath, FALSE);
+                                                                                            if (!bSuccess)
+                                                                                            {
+                                                                                                DWORD dwError = GetLastError();
+                                                                                                // Handle the error.
+                                                                                                WCHAR szErrorMessage[256];
+                                                                                                FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, szErrorMessage, ARRAYSIZE(szErrorMessage), NULL);
+                                                                                                MessageBox(NULL, szErrorMessage, L"Error", MB_OK | MB_ICONERROR);
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                // Show a message box that says "Done".
+                                                                                                MessageBox(NULL, L"Done", L"Information", MB_OK | MB_ICONINFORMATION);
+                                                                                            }
                                                                                         }
                                                                                     }
                                                                                 }
@@ -262,8 +327,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int nCmdShow)
     // Set the window size to half the screen size
     int screenWidth = GetSystemMetrics(SM_CXSCREEN);
     int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-    int windowWidth = screenWidth / 3;
-    int windowHeight = screenHeight / 2;
+    int windowWidth = screenWidth / 6;
+    int windowHeight = screenHeight / 4;
 
     HWND hwnd = CreateWindowEx(
         0,
@@ -282,15 +347,33 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int nCmdShow)
         return 0;
     }
 
+    // Inside the wWinMain function
+    int buttonWidth = 80;
+    int buttonHeight = 30;
+    int buttonSpacing = 10; // The space between the buttons
+
+    // Calculate the total height of all buttons and the spaces between them
+    int totalHeight = 3 * buttonHeight + 2 * buttonSpacing;
+
+    // Calculate the y position of the first button
+    int yButton1 = (windowHeight - totalHeight) / 2;
+
+    // Calculate the y positions of the other buttons
+    int yButton2 = yButton1 + buttonHeight + buttonSpacing;
+    int yButton3 = yButton2 + buttonHeight + buttonSpacing;
+
+    // Calculate the x position of the buttons (centered horizontally)
+    int xButton = (windowWidth - buttonWidth) / 2;
+
     // Create the first button
     HWND hwndButton1 = CreateWindow(
         L"BUTTON",  // Predefined class; Unicode assumed 
         L"Open Lunar Client",      // Button text 
         WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
-        10,         // x position 
-        windowHeight - 70,         // y position 
-        200,        // Button width
-        30,        // Button height
+        xButton,         // x position 
+        yButton1,         // y position 
+        buttonWidth,        // Button width
+        buttonHeight,        // Button height
         hwnd,     // Parent window
         (HMENU)BUTTON_ID1,       // The ID of the button
         (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
@@ -301,12 +384,26 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int nCmdShow)
         L"BUTTON",  // Predefined class; Unicode assumed 
         L"Start",      // Button text 
         WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
-        10,         // x position 
-        10,         // y position 
-        80,        // Button width
-        30,        // Button height
+        xButton,         // x position 
+        yButton2,         // y position 
+        buttonWidth,        // Button width
+        buttonHeight,        // Button height
         hwnd,     // Parent window
         (HMENU)BUTTON_ID2,       // The ID of the button
+        (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
+        NULL);      // Pointer not needed.
+
+    // Create the third button
+    HWND hwndButton3 = CreateWindow(
+        L"BUTTON",  // Predefined class; Unicode assumed 
+        L"Link",      // Button text 
+        WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
+        xButton,         // x position 
+        yButton3,         // y position 
+        buttonWidth,        // Button width
+        buttonHeight,        // Button height
+        hwnd,     // Parent window
+        (HMENU)BUTTON_ID3,       // The ID of the button
         (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE),
         NULL);      // Pointer not needed.
 
