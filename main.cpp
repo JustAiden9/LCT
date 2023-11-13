@@ -115,7 +115,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                         // TODO: add code
                         break;
                     case IDOK:
-                        ShellExecute(NULL, L"open", L"https://download2267.mediafire.com/0umxcux4b7pgIKfXZRr48NpvdCgbJmpNINHpUK3Gt73hXfeEDKQK_3X8xsTFrZCot6Y2C1dngJ-BrJlfTsFIYmToRRUxmGO3ZGRvOr0e82LTrmhbRfSzCG7IR-CGSYvzawY9RFOg0ohTwbcOAbKDh9bbXzaE2uVdDMedAUbZ-g/o5yf818e4drlslt/%C2%A7bCosmetics+%C2%A78%5BOverlay%5D.zip", NULL, NULL, SW_SHOW);
+                        ShellExecute(NULL, L"open", L"https://www.mediafire.com/file/zyvgio84xlqh5im/Cosmetics_%255BOverlay%255D.zip/file", NULL, NULL, SW_SHOW);
                         break;
                     }
                 }
