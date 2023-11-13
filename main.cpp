@@ -42,7 +42,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             if (SUCCEEDED(hr))
             {
                 WCHAR szFolderPath[MAX_PATH];
-                StringCchPrintf(szFolderPath, MAX_PATH, L"%s\\.minecraft\\resourcepacks\\§bCosmetics §8[Overlay]\\assets\\lunar\\cosmetics\\cloaks", path);
+                StringCchPrintf(szFolderPath, MAX_PATH, L"%s\\.minecraft\\resourcepacks\\Cosmetics [Overlay]\\assets\\lunar\\cosmetics\\cloaks", path);
 
                 // Code to move the files from the NEW folder to the specified path
                 WCHAR szCacheFolderPath[MAX_PATH];
@@ -96,7 +96,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             if (SUCCEEDED(hr))
             {
                 WCHAR szFolderPath[MAX_PATH];
-                StringCchPrintf(szFolderPath, MAX_PATH, L"%s\\.minecraft\\resourcepacks\\§bCosmetics §8[Overlay]", path);
+                StringCchPrintf(szFolderPath, MAX_PATH, L"%s\\.minecraft\\resourcepacks\\Cosmetics [Overlay]", path);
 
                 DWORD dwAttrib = GetFileAttributes(szFolderPath);
 
@@ -104,7 +104,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
                 {
                     int msgboxID = MessageBox(
                         NULL,
-                        (LPCWSTR)L"The folder §bCosmetics §8[Overlay] does not exist.",
+                        (LPCWSTR)L"The folder Cosmetics [Overlay] does not exist.",
                         (LPCWSTR)L"Folder Check",
                         MB_ICONINFORMATION | MB_OKCANCEL | MB_DEFBUTTON2
                     );
