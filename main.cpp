@@ -368,7 +368,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR, int nCmdShow)
     // Create the first button
     HWND hwndButton1 = CreateWindow(
         L"BUTTON",  // Predefined class; Unicode assumed 
-        L"Open Lunar Client",      // Button text 
+        L"Lunar",      // Button text 
         WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,  // Styles 
         xButton,         // x position 
         yButton1,         // y position 
