@@ -5,4 +5,4 @@ I have made a texture pack maker that allows you to change different cosmetics t
 # QNA
 - Will Pets and Hats Work?
 - Nope, atm only capes work, but we will add this in the future. You can use this method to change 3d models.
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AUErp-Wi7KY?si=nLwdLttMt-h48ZCu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<object width="425" height="350"> <param name="movie" value="https://youtu.be/AUErp-Wi7KY?si=-DNpb8BYV_FrQ7fh" /> <param name="wmode" value="transparent" /> <embed src="https://youtu.be/AUErp-Wi7KY?si=-DNpb8BYV_FrQ7fh" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350" /> </object>
