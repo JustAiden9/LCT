@@ -5,4 +5,4 @@ I have made a texture pack maker that allows you to change different cosmetics t
 # QNA
 - Will Pets and Hats Work?
 - Nope, atm only capes work, but we will add this in the future. You can use this method to change 3d models.
-<object width="425" height="350"> <param name="movie" value="https://youtu.be/AUErp-Wi7KY?si=-DNpb8BYV_FrQ7fh" /> <param name="wmode" value="transparent" /> <embed src="https://youtu.be/AUErp-Wi7KY?si=-DNpb8BYV_FrQ7fh" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350" /> </object>
+[![How To Get Any Lunar Client Cosmetic (STILL WORKING 2023)](https://media.discordapp.net/attachments/948341972245049385/1173450451807637504/New_Project_7.png?ex=6563ffe5&is=65518ae5&hm=ffe421f87928a6ddd63515d7f21d6e5f4ce5f9182d9d4f7fee914f24f3837d2d&=&width=1073&height=604)](https://www.youtube.com/watch?v=AUErp-Wi7KY&t=21s "How To Get Any Lunar Client Cosmetic (STILL WORKING 2023)")
