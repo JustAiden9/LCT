@@ -2,6 +2,8 @@
 The ability to change Lunar Client Cosmetics without any external software just a texture pack!
 I have made a texture pack maker that allows you to change different cosmetics textures.
 
+#(WIKI)[https://github.com/JustAiden9/LCT/wiki]
+
 # QNA
 - Will Pets and Hats Work?
 - Nope, atm only capes work, but we will add this in the future. You can use the method below to change 3d models.
