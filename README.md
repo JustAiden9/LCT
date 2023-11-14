@@ -2,7 +2,7 @@
 The ability to change Lunar Client Cosmetics without any external software just a texture pack!
 I have made a texture pack maker that allows you to change different cosmetics textures.
 
-#(WIKI)[https://github.com/JustAiden9/LCT/wiki]
+#[WIKI](https://github.com/JustAiden9/LCT/wiki)
 
 # QNA
 - Will Pets and Hats Work?
